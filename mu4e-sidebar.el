@@ -126,15 +126,6 @@ Each element is a plist with :title and :entries.
   (add-hook 'mu4e-headers-found-hook #'mu4e-sidebar--cleanup-windows nil t)
   (mu4e-search query))
 
-;; (defun mu4e-sidebar--run-search (query)
-;;   "Run a mu4e search for QUERY, expanding the result to full height."
-;;   (let ((sidebar-win (get-buffer-window mu4e-sidebar-buffer-name)))
-;;     (dolist (win (window-list))
-;;       (unless (or (eq win sidebar-win)
-;;                   (window-parameter win 'window-side))
-;;         (delete-window win)))
-;;     (mu4e-search query)))
-
 (defun mu4e-sidebar--insert-header ()
   "Insert the top-level unread mail header as a clickable button."
   (insert "\n")
@@ -266,8 +257,12 @@ Each element is a plist with :title and :entries.
 
 (define-derived-mode mu4e-sidebar-mode special-mode "mu4e-sidebar"
   "Major mode for the mu4e navigation sidebar."
+
   (setq-local cursor-type nil)
-  (setq-local mode-line-format nil))
+  (setq-local mode-line-format nil)
+
+  (font-lock-mode -1)
+  (jit-lock-mode -1))
 
 (when (featurep 'evil) ;; evil overrides
   (evil-define-key 'normal mu4e-sidebar-mode-map
